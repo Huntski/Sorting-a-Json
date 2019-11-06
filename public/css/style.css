@@ -1,0 +1,28 @@
+/*
+*   Author: Wiebe Ranzijn
+*   Description: Json Filter & Search, with Ajax
+*/
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search__input {
+
+}
+
+.search__filter {
+
+}
+
+.search__sort {
+    
+}

@@ -20,4 +20,23 @@
 
     <div class="list-container"></div>
 
+    <!-- List item layout
+            <div class="item">
+                <div class="item__info">
+                    <h1 class="item__title"></h1>
+                    <ul class="item__list">
+                        <li class="item__list__item"></li>
+                        <li class="item__list__item"></li>
+                        <li class="item__list__item"></li>
+                        <li class="item__list__item"></li>
+                        <li class="item__list__item"></li>
+                    </ul>
+                </div>
+
+                <div class="item__img">
+                    <img src="" alt="">
+                </div>
+            </div>
+     -->
+
 </main>

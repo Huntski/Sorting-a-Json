@@ -18,7 +18,7 @@ class MainController {
         );
 
         $this->template_folder = '../private/templates/';
-        $this->uri = $_SERVER['REQUEST_URI'] . 'public/';
+        $this->uri = $GLOBALS['file_uri'] = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)) . '/';
 
     }
 
@@ -121,12 +121,18 @@ class MainController {
             <div class="item">
                 <div class="item__info">
                     <h1 class="item__title"><?=$item->titel?></h1>
-                    <h3 class="item__date"><?=$item->uitgave?></h3>
+                    <ul class="item__list">
+                        <li class="item__list__item"><?=$item->auteur?></li>
+                        <li class="item__list__item"><?=$item->uitgave?></li>
+                        <li class="item__list__item"><?=$item->ean?></li>
+                        <li class="item__list__item"><?=$item->paginas?></li>
+                        <li class="item__list__item"><?=$item->taal?></li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="item__img">
-                <img src="<?=$item->cover?>" alt="">
+                <div class="item__img">
+                    <img src="<?=$item->cover?>" alt="">
+                </div>
             </div>
 
         <?php
