@@ -13,8 +13,8 @@ class MainController {
     function __construct () {
 
         $this->json = array(
-            'location' => '../private/includes/',
-            'name' => '.json'
+            'file__location' => '../private/includes/',
+            'file__name' => 'book.json'
         );
 
         $this->template_folder = '../private/templates/';
@@ -22,7 +22,26 @@ class MainController {
 
     }
 
-    // ----------------------------------------------------------------- Main controller function
+    // -----------------------------------------------------------------
+
+
+    // ========================================================== Private functions  ========================================================== //
+
+    // ----------------------------------------------------------------- Get json contents
+
+    private function get_json_contents () {
+
+        $json_location = $this->json['file__location'] . $this->json['file__name'];
+        return json_decode(file_get_contents($json_location));
+
+    }
+
+    // -----------------------------------------------------------------
+
+
+    // ========================================================== Public functions  ========================================================== //
+
+    // ----------------------------------------------------------------- Show page
 
     public function request_main () {
 
@@ -35,19 +54,51 @@ class MainController {
 
     }
 
-    // -----------------------------------------------------------------
+    // ----------------------------------------------------------------- Search
 
     public function request_search ($search_querys) {
 
-        $allowed_querys = array('search', 'filter', 'sort');
-        $filtered_querys = array();
-        foreach ($search_querys as $key => $query) {
-            if (in_array($key, $allowed_querys)) {
-                array_push($filtered_querys, [$key => filter_var($query, FILTER_SANITIZE_STRING)]);
+        $contents = $this->get_json_contents();
+        $results = array();
+
+        global $filter;
+
+        $search       = filter_var($search_querys['search'], FILTER_SANITIZE_STRING);
+        $filter = filter_var($search_querys['filter'], FILTER_SANITIZE_STRING);
+        $sort         = filter_var($search_querys['sort'], FILTER_VALIDATE_INT);
+
+        if (!$search) $search = "negative";
+        if (in_array($filter, ['titel', 'auteur', 'date', 'paginas', 'taal', 'prijs']) === false) $filter = "titel";
+        // $['filter'] = $filter;
+
+        if ($search == "negative") {
+            echo "no search";
+            $results = $contents;
+        } else {
+            foreach ($contents as $key => $value) {
+                $filter__value = strtolower($value->$filter);
+                $search__value = strtolower($search);
+                if (strpos($filter__value, $search__value) !== false) {
+                    array_push($results, $contents[$key]);
+                }
             }
         }
 
+        function cmp ($a, $b)  {
+            $filter = $GLOBALS['filter'];
+            if (filter_var($a, FILTER_VALIDATE_INT)) {
+                return strcmp($a->$filter, $b->$filter);
+            } else {
+                return strcasecmp($a->$filter, $b->$filter);
+            }
+        }
+
+        usort($results, "cmp");
+
+        echo json_encode($results);
+
     }
+
     // -----------------------------------------------------------------
 
 }

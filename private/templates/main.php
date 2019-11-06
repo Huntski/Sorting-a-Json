@@ -3,7 +3,7 @@
         <input class="search__input" type="search" placeholder="Search..">
 
         <select class="search__filter">
-            <option value="all">filter</option>
+            <option value="titel">titel</option>
             <option value="auteur">auteur</option>
             <option value="date">datum uitgave</option>
             <option value="paginas">aantal bladzijden</option>
