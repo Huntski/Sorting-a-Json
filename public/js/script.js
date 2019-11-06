@@ -5,16 +5,16 @@
 
 // --------------------------------------------------------------------- Main variables
 
-let search__input = document.querySelector('.search__input');
+let search__input  = document.querySelector('.search__input');
 let search__filter = document.querySelector('.search__filter');
-let search__sort = document.querySelector('.search__sort');
-
-let url = window.location;
+let search__sort   = document.querySelector('.search__sort');
+let list_container = document.querySelector('.list-container');
+let url            = window.location;
 
 // --------------------------------------------------------------------- Get all search querys
 
 function prepareSearchRequest () {
-    ajax(
+    let answer = ajax(
         url,
         {
             'search' : search__input.value,
@@ -39,21 +39,23 @@ const ajax = (url, parameters, method) => {
     }
 
     new Promise((resolve, reject) => {
-        const xmlhttp = new XMLHttpRequest();
+        const xmlhttp = new XMLHttpRequest()
         xmlhttp.onreadystatechange = () => {
             if (xmlhttp.status === 200) {
-                let serverResponse = xmlhttp.responseText;
-                console.log(xmlhttp.responseText);
-                resolve(serverResponse);
+                let serverResponse = xmlhttp.responseText
+                console.log(xmlhttp.responseText)
+                resolve(serverResponse)
             } else {
                 reject(xmlhttp.status);
-                console.error(xmlhttp.status);
-                console.error(xmlhttp.responseText);-
-                console.error("xmlhttp failed");
+                console.error(xmlhttp.status)
+                console.error(xmlhttp.responseText)
+                console.error("xmlhttp failed")
             }
+
+            list_container.innerHTML = xmlhttp.responseText;
         }
-        console.log(`${url}?${parameters}`);
-        xmlhttp.open(method, `${url}?${parameters}`, true);
+        console.log(`${url}?${parameters}`)
+        xmlhttp.open(method, `${url}?${parameters}`, true)
         xmlhttp.send();
     })
 }

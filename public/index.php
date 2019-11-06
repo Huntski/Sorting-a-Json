@@ -19,8 +19,8 @@ require "../private/controllers/" . $controller . ".php";
 $controller = new $controller;
 
 if (isset($_GET['search'], $_GET['filter'], $_GET['sort'])) {
-    $controller->request_search($_GET);
+    $controller->requestSearch($_GET);
 }
-if (!count($_GET)) $controller->request_main();
+if (!count($_GET)) $controller->requestHome();
 
 // ---------------------------------------------------------------------------------
