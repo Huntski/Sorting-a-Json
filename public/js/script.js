@@ -46,15 +46,15 @@ const ajax = (url, parameters, method) => {
     }
 
     new Promise((resolve, reject) => {
-        const xmlhttp = new XMLHttpRequest()
+        let xmlhttp = new XMLHttpRequest()
         xmlhttp.onreadystatechange = () => {
-            if (xmlhttp.status === 200) {
+            if(this.readyState == 4 || this.status == 200){
                 let serverResponse = xmlhttp.responseText
                 console.log(xmlhttp.responseText)
                 resolve(serverResponse)
             } else {
                 reject(xmlhttp.status);
-                console.error(xmlhttp.status)
+                console.error(`status: ${xmlhttp.status}`)
                 console.error(xmlhttp.responseText)
                 console.error("xmlhttp failed")
             }

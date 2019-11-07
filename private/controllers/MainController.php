@@ -98,10 +98,10 @@ class MainController {
         require $folder . "header.php";
         require $folder . "main.php";
         require $folder . "footer.php";
-
+ 
     }
 
-    // ----------------------------------------------------------------- Show search html
+    // ----------------------------------------------------------------- Show search result in html
 
     public function requestSearch ($querys_array) {
 
@@ -110,7 +110,7 @@ class MainController {
         if (count($result) == 0) :
             ?>
 
-            <h2 class="none">No results found</h2>
+            <h2 class="item none">No results found</h2>
 
             <?php
         endif;
@@ -119,19 +119,19 @@ class MainController {
             ?>
 
             <div class="item">
+                <div class="item__cover">
+                    <img class="item__cover__img" src="<?=$item->cover?>" alt="">
+                </div>
+
                 <div class="item__info">
                     <h1 class="item__title"><?=$item->titel?></h1>
                     <ul class="item__list">
                         <li class="item__list__item"><?=$item->auteur?></li>
-                        <li class="item__list__item"><?=$item->uitgave?></li>
-                        <li class="item__list__item"><?=$item->ean?></li>
-                        <li class="item__list__item"><?=$item->paginas?></li>
-                        <li class="item__list__item"><?=$item->taal?></li>
+                        <li class="item__list__item">Uitgave: <?=$item->uitgave?></li>
+                        <li class="item__list__item">Ean: <?=$item->ean?></li>
+                        <li class="item__list__item">Paginas: <?=$item->paginas?></li>
+                        <li class="item__list__item">Taal: <?=$item->taal?></li>
                     </ul>
-                </div>
-
-                <div class="item__img">
-                    <img src="<?=$item->cover?>" alt="">
                 </div>
             </div>
 
