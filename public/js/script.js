@@ -69,7 +69,7 @@ const ajax = (url, parameters, method) => {
 
 // --------------------------------------------------------------------- Add item to cookies for webshop
 
-let shopCounter = document.querySelector('.shop-counter')
+let shopCounter = document.querySelector('.shop-counter__count')
 
 function addCookie (value) {
     let expires = ""
@@ -81,6 +81,7 @@ function addCookie (value) {
     console.log(cookieArray)
     document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
     console.log(document.cookie);
+    shopCounter.innerHTML = getCookieValues(document.cookie).length;
 }
 
 // --------------------------------------------------------------------- Get cookie values

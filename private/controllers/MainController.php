@@ -104,13 +104,19 @@ class MainController {
 
         $result = $this->searchJson($querys_array);
 
-        if (count($result) == 0) :
+        if ($querys_array['search'] == 'uwu') {
+            ?>
+
+            <h2 class="item none">OwO</h2>
+
+            <?php
+        } else if (count($result) == 0) {
             ?>
 
             <h2 class="item none">No results found</h2>
 
             <?php
-        endif;
+        }
 
         foreach ($result as $item) :
             ?>
