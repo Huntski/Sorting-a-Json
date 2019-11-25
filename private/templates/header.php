@@ -1,3 +1,9 @@
+<?php
+    if (isset($_COOKIE['items'])) {
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -10,4 +16,9 @@
     <link rel="stylesheet" href="<?=$uri?>css/style.css">
 </head>
 <body>
-    <header class="header"></header>
+    <header class="header">
+        <div class="shop-counter">
+            <img class="shop-counter__img" src="" alt="">
+            <h2 class="shop-counter__count"></h2>
+        </div>
+    </header>

@@ -22,23 +22,18 @@ class MainController {
 
     }
 
-    // -----------------------------------------------------------------
-
-
     // ========================================================== Private functions  ========================================================== //
 
-    // ----------------------------------------------------------------- Get json contents
-
-    private function get_json_contents () {
+    private function get_json_contents () { // Get json contents
 
         $json_location = $this->json['file__location'] . $this->json['file__name'];
         return json_decode(file_get_contents($json_location));
 
     }
 
-    // ----------------------------------------------------------------- Search
+    // -----------------------------------------------------------------
 
-    private function searchJson ($search_querys) {
+    private function searchJson ($search_querys) { // Search
 
         $contents = $this->get_json_contents();
         $results = array();
@@ -83,14 +78,10 @@ class MainController {
 
     }
 
-    // -----------------------------------------------------------------
-
 
     // ========================================================== Public functions  ========================================================== //
 
-    // ----------------------------------------------------------------- Show home
-
-    public function requestHome () {
+    public function requestHome () { // Show home
 
         $uri = $this->uri;
         $folder = $this->template_folder;
@@ -98,12 +89,12 @@ class MainController {
         require $folder . "header.php";
         require $folder . "main.php";
         require $folder . "footer.php";
- 
+
     }
 
-    // ----------------------------------------------------------------- Show search result in html
+    // -----------------------------------------------------------------
 
-    public function requestSearch ($querys_array) {
+    public function requestSearch ($querys_array) { // Show search result in html
 
         $result = $this->searchJson($querys_array);
 
@@ -133,6 +124,11 @@ class MainController {
                         <li class="item__list__item">Taal: <?=$item->taal?></li>
                     </ul>
                 </div>
+
+                <button class="button--plus item__button" onclick="addToCookies('<?=$item->titel?>')">
+                    <div></div>
+                    <div></div>
+                </button>
             </div>
 
         <?php
