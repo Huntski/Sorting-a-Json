@@ -83,6 +83,12 @@ class MainController {
 
     public function requestHome () { // Show home
 
+        $items = array();
+
+        if (isset($_COOKIE['items'])) {
+            $items = json_decode($_COOKIE['items']);
+        }
+
         $uri = $this->uri;
         $folder = $this->template_folder;
 
@@ -125,7 +131,7 @@ class MainController {
                     </ul>
                 </div>
 
-                <button class="button--plus item__button" onclick="addToCookies('<?=$item->titel?>')">
+                <button class="button--plus item__button" onclick="addCookie('<?=$item->titel?>')">
                     <div></div>
                     <div></div>
                 </button>

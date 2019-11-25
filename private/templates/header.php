@@ -1,7 +1,11 @@
 <?php
-    if (isset($_COOKIE['items'])) {
 
-    }
+$items = array();
+
+if (isset($_COOKIE['items'])) {
+    $items = json_decode($_COOKIE['items']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +23,6 @@
     <header class="header">
         <div class="shop-counter">
             <img class="shop-counter__img" src="" alt="">
-            <h2 class="shop-counter__count"></h2>
+            <h2 class="shop-counter__count"><?=count($items)?></h2>
         </div>
     </header>

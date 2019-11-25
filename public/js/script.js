@@ -45,18 +45,18 @@ const ajax = (url, parameters, method) => {
         parameters = string
     }
 
-    new Promise((resolve, reject) => {
+    new Promise ((resolve, reject) => {
         let xmlhttp = new XMLHttpRequest()
         xmlhttp.onreadystatechange = () => {
             if(this.readyState == 4 || this.status == 200) {
                 let serverResponse = xmlhttp.responseText
-                console.log(xmlhttp.responseText)
+                // console.log(xmlhttp.responseText)
                 resolve(serverResponse)
             } else {
                 reject(xmlhttp.status)
-                console.error(`status: ${xmlhttp.status}`)
-                console.error(xmlhttp.responseText)
-                console.error("xmlhttp failed")
+                // console.error(`status: ${xmlhttp.status}`)
+                // console.error(xmlhttp.responseText)
+                // console.error("xmlhttp failed")
             }
 
             list_container.innerHTML = xmlhttp.responseText;
@@ -71,26 +71,26 @@ const ajax = (url, parameters, method) => {
 
 let shopCounter = document.querySelector('.shop-counter')
 
-function addToCookies (value) {
+function addCookie (value) {
     let expires = ""
     let date = new Date()
     date.setTime(date.getTime() + (12*24*60*60*1000)) // Keep the cookie for 12 days
     expires = "; expires=" + date.toUTCString()
-    if (!document.cookie.length) document.cookie = `items=`+ JSON.stringify(['nothing']) + `${expires}; path=/`;
-    console.log(getCookie("items"));
-    if (value) {
-        let cookieArray = getCookie("items");
-        document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
-    }
+    let cookieArray = getCookieValues(document.cookie)
+    cookieArray.push(value)
+    console.log(cookieArray)
+    document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
+    console.log(document.cookie);
 }
 
-// --------------------------------------------------------------------- Get cookie value
+// --------------------------------------------------------------------- Get cookie values
 
-function getCookie (key) {
-    var re = new RegExp(key + "=([^;]+)")
-    var value = re.exec(document.cookie)
-    return (value != null) ? unescape(value[1]) : null
-  }
+function getCookieValues (cookie) {
+    if (!cookie) return [];
+    let value = cookie.split("=")[1];
+    return JSON.parse(value)
+}
+
 
 // --------------------------------------------------------------------- Event listeners
 
