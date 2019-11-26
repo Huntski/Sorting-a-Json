@@ -21,12 +21,26 @@ let url            = window.location
 // --------------------------------------------------------------------- Get all search querys
 
 function prepareSearchRequest () {
-    let answer = ajax(
+    ajax(
         url,
         {
             'search' : search__input.value,
             'filter' : search__filter.value,
             'sort'   : search__sort.value
+        },
+        'GET'
+    )
+}
+
+// ---------------------------------------------------------------------
+
+function requestShoppingCart () {
+    ajax(
+        url,
+        {
+            'search' : "ShoppingCart",
+            'filter' : "",
+            'sort'   : ""
         },
         'GET'
     )
@@ -77,7 +91,15 @@ function addCookie (value) {
     date.setTime(date.getTime() + (12*24*60*60*1000)) // Keep the cookie for 12 days
     expires = "; expires=" + date.toUTCString()
     let cookieArray = getCookieValues(document.cookie)
-    cookieArray.push(value)
+    let e = false
+    cookieArray.forEach((v) => {
+         if (v[0] == value) {
+             v[1]++
+             e = true
+         }
+    })
+    if (!e)
+        cookieArray[cookieArray.length] = [value, 1];
     console.log(cookieArray)
     document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
     console.log(document.cookie);
@@ -91,7 +113,6 @@ function getCookieValues (cookie) {
     let value = cookie.split("=")[1];
     return JSON.parse(value)
 }
-
 
 // --------------------------------------------------------------------- Event listeners
 
