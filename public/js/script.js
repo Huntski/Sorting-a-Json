@@ -96,7 +96,11 @@ function addCookie (value) {
     console.log(cookieArray)
     document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
     console.log(document.cookie);
-    shopCounter.innerHTML = getCookieValues(document.cookie).length;
+    let counter = 0;
+    getCookieValues(document.cookie).forEach((c) => {
+        counter += c[1];
+    })
+    shopCounter.innerHTML = counter;
 }
 
 // --------------------------------------------------------------------- Get cookie values

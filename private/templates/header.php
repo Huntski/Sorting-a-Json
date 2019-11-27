@@ -16,7 +16,16 @@
 
         <div class="shop-counter" onclick="requestShoppingCart()">
             <img class="shop-counter__img" src="<?= $uri ?>img/cart.png" alt="">
-            <h2 class="shop-counter__count"><?= count($items) ?></h2>
+            <h2 class="shop-counter__count"><?php
+
+            $counter = 0;
+            foreach ($items as $i) {
+                $counter += $i[1];
+            }
+
+            echo $counter;
+
+            ?></h2>
         </div>
 
         <h2 class="h2">Search</h2>
@@ -41,6 +50,3 @@
 
 
     </header>
-
-    <main class="main">
-        <div class="list-container">
