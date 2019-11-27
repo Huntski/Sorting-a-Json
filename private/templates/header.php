@@ -19,10 +19,7 @@
             <h2 class="shop-counter__count"><?php
 
             $counter = 0;
-            foreach ($items as $i) {
-                $counter += $i[1];
-            }
-
+            foreach ($items as $i) $counter += $i[1];
             echo $counter;
 
             ?></h2>
