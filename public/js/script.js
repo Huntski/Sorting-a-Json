@@ -5,13 +5,6 @@
 
 // --------------------------------------------------------------------- Main variables
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    prepareSearchRequest()
-})
-
-
-// --------------------------------------------------------------------- Main variables
-
 let search__input  = document.querySelector('.search__input')
 let search__filter = document.querySelector('.search__filter')
 let search__sort   = document.querySelector('.search__sort')
@@ -34,12 +27,12 @@ function prepareSearchRequest () {
 
 // ---------------------------------------------------------------------
 
-function requestShoppingCart () {
+function prepareShoppingCart () {
     ajax(
         url,
         {
             'search' : "ShoppingCart",
-            'filter' : "",
+            'filter' : "title",
             'sort'   : ""
         },
         'GET'

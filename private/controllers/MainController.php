@@ -24,6 +24,16 @@ class MainController {
 
     // ========================================================== Private functions  ========================================================== //
 
+    public function validateFile ($fileName, $dir) { // Check if file exist in template folder
+        $valid = false;
+        $allowedFileRequests = array(); // Create array with valid files
+        foreach(scandir($dir) as $file) array_push($allowedFileRequests, explode(".php", $file)[0]);
+        if (in_array($fileName, $allowedFileRequests)) $valid = true;
+        return $valid;
+    }
+
+    // -----------------------------------------------------------------
+
     private function get_json_contents () { // Get json contents
 
         $json_location = $this->json['file__location'] . $this->json['file__name'];
@@ -78,10 +88,23 @@ class MainController {
 
     }
 
+    private function getItemContents ($title) {
+
+        $contents = $this->get_json_contents();
+
+        foreach ($contents as $key => $value) {
+            if ($value->titel == $title) return $value;
+        }
+
+        return false;
+
+    }
 
     // ========================================================== Public functions  ========================================================== //
 
-    public function requestHome () { // Show home
+    public function requestHome ($routes) {
+
+        $request = filter_var($routes[0]);
 
         $items = array();
 
@@ -93,7 +116,20 @@ class MainController {
         $folder = $this->template_folder;
 
         require $folder . "header.php";
-        require $folder . "main.php";
+        require $folder . "home.php";
+        ?>
+        <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', (event) => {
+            <?php
+            if (strtolower($routes[0]) == 'shoppingcart') {
+                ?>prepareShoppingCart();<?php
+            } else {
+                ?>prepareSearchRequest();<?php
+            }
+            ?>
+        });
+        </script>
+        <?php
         require $folder . "footer.php";
 
     }
@@ -111,44 +147,50 @@ class MainController {
 
             <?php
         } else if (count($result) == 0) {
-            ?>
 
-            <h2 class="item none">No results found</h2>
-
-            <?php
         }
 
-        foreach ($result as $item) :
-            ?>
-
-            <div class="item">
-                <div class="item__cover">
-                    <img class="item__cover__img" src="<?=$item->cover?>" alt="">
-                </div>
-
-                <div class="item__info">
-                    <h1 class="item__title"><?=$item->titel?></h1>
-                    <ul class="item__list">
-                        <li class="item__list__item"><?=$item->auteur?></li>
-                        <li class="item__list__item">Uitgave: <?=$item->uitgave?></li>
-                        <li class="item__list__item">Ean: <?=$item->ean?></li>
-                        <li class="item__list__item">Paginas: <?=$item->paginas?></li>
-                        <li class="item__list__item">Taal: <?=$item->taal?></li>
-                    </ul>
-                </div>
-
-                <button class="button--plus item__button" onclick="addCookie('<?=$item->titel?>')">
-                    <div></div>
-                    <div></div>
-                </button>
-            </div>
-
-        <?php
-
-        endforeach;
+        require $this->template_folder . "items.php";
 
     }
 
     // -----------------------------------------------------------------
+
+    public function requestShoppingCart () {
+        ?>
+        <div class='shopping-cart'>
+            <?php
+
+            $items = json_decode($_COOKIE['items']);
+
+            var_dump($items);
+
+            if (!count($items)) {
+                ?>
+
+                <div class="shopping-cart">
+                    <h2>Shopping cart is empty</h2>
+                </div>
+
+                <?php
+            }
+
+            foreach ($items as $item) {
+                $item = $this->getItemContents($item);
+                var_dump($item);
+                ?>
+
+                <div class="cart-item">
+                    <h2 class="cart-item__title"><?=$item?></h2>
+                </div>
+
+                <?php
+            }
+
+            ?>
+        </div>
+        <?php
+
+    }
 
 }
