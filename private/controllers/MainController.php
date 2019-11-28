@@ -88,12 +88,15 @@ class MainController {
 
     }
 
-    private function getItemContents ($title) {
+    // -----------------------------------------------------------------
+
+    private function getContents ($item) {
 
         $contents = $this->get_json_contents();
 
         foreach ($contents as $key => $value) {
-            if ($value->titel == $title) return $value;
+            if (isset($value->titel))
+                if ($value->titel == $item[0]) return $value;
         }
 
         return false;
@@ -156,41 +159,8 @@ class MainController {
 
     // -----------------------------------------------------------------
 
-    public function requestShoppingCart () {
-        ?>
-        <div class='shopping-cart'>
-            <?php
-
-            $items = json_decode($_COOKIE['items']);
-
-            var_dump($items);
-
-            if (!count($items)) {
-                ?>
-
-                <div class="shopping-cart">
-                    <h2>Shopping cart is empty</h2>
-                </div>
-
-                <?php
-            }
-
-            foreach ($items as $item) {
-                $item = $this->getItemContents($item);
-                var_dump($item);
-                ?>
-
-                <div class="cart-item">
-                    <h2 class="cart-item__title"><?=$item?></h2>
-                </div>
-
-                <?php
-            }
-
-            ?>
-        </div>
-        <?php
-
+    public function requestShoppingcart () {
+        require $this->template_folder . "shoppingcart.php";
     }
 
 }

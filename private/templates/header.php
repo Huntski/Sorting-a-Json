@@ -14,7 +14,7 @@
 <body>
     <header class="header">
 
-        <div class="shop-counter" onclick="requestShoppingCart()">
+        <div class="shop-counter" onclick="prepareShoppingCart()">
             <img class="shop-counter__img" src="<?= $uri ?>img/cart.png" alt="">
             <h2 class="shop-counter__count"><?php
 

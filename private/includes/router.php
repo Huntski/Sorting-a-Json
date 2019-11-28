@@ -40,20 +40,17 @@ class router {
         $params = $this->routes;
 
         if (isset($_GET['search'], $_GET['filter'], $_GET['sort'])) {
-            $function = "requestSearch";
-            $params = $_GET;
+            if (strtolower($_GET['search']) == "shoppingcart") {
+                $function = "requestShoppingcart";
+                $params = "";
+            } else {
+                $function = "requestSearch";
+                $params = $_GET;
+            }
         } else {
             switch ($this->routes[0]) {
                 case "home":
                     $function = "requestHome";
-                case "shoppingcart":
-                    $function = "requestHome";
-                    break;
-                case "template":
-                    $function = "requestTemplate";
-                    if (isset($this->routes[1]))
-                        $params = $this->routes[1];
-                    break;
                 default:
                     $function = "requestHome";
             }
