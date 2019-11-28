@@ -19,7 +19,8 @@
             <h2 class="shop-counter__count"><?php
 
             $counter = 0;
-            foreach ($items as $i) $counter += $i[1];
+            foreach ($items as $i) if (isset($i[1]))
+                (is_numeric($i[1])) ? $counter += $i[1] : $counter++;
             echo $counter;
 
             ?></h2>

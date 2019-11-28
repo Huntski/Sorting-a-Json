@@ -3,7 +3,7 @@
 *   Description: Json Filter & Search, with Ajax
 */
 
-if (!document.cookie) document.cookie = `items=` + JSON.stringify([]) + getExpiredate() +`; path=/`;
+if (!document.cookie) updateCookie([]);
 
 // --------------------------------------------------------------------- Main variables
 
@@ -68,14 +68,13 @@ const ajax = (url, parameters, method) => {
                 // console.log(xmlhttp.responseText)
                 resolve(serverResponse)
             } else {
-                reject(xmlhttp.status)
+                // reject(xmlhttp.status)
                 // console.error(`status: ${xmlhttp.status}`)
                 // console.error(xmlhttp.responseText)
                 // console.error("xmlhttp failed")
             }
 
             list_container.innerHTML = xmlhttp.responseText;
-            console.log(parameters)
         }
         console.log(`${url}?${parameters}`)
         xmlhttp.open(method, `${url}?${parameters}`, true)
@@ -98,7 +97,7 @@ function getExpiredate () {
 
 function addCookie (value) {
     let expires = getExpiredate();
-    let cookieArray = getCookieValues(document.cookie)
+    let cookieArray = getCookieValues()
     let e = false
     cookieArray.forEach((v) => {
          if (v[0] == value) {
@@ -117,7 +116,7 @@ let shopCounter = document.querySelector('.shop-counter__count')
 
 function updateShoppingcart () {
     let counter = 0;
-    getCookieValues(document.cookie).forEach((c) => {
+    getCookieValues().forEach((c) => {
         counter += c[1];
     })
     shopCounter.innerHTML = counter
@@ -125,38 +124,54 @@ function updateShoppingcart () {
 
 // --------------------------------------------------------------------- Get cookie values
 
-function getCookieValues (cookie) {
-    if (!cookie) return []
-    let value = cookie.split("=")[1]
+function getCookieValues () {
+    if (!document.cookie) return []
+    let value = document.cookie.split("items=").pop()
+    value = value.split(";").shift()
     return JSON.parse(value)
 }
 
 // --------------------------------------------------------------------- Remove cookie based on title
 
-function removeItem (title, id) {
-    let expires = getExpiredate();
+function removeItem (title, id = null) {
     let shopCounter = document.querySelector('.shop-counter__count')
-    let a = getCookieValues(document.cookie),
-        amount
+    let a = getCookieValues(),
+        amount,
+        n = []
+        del = false
     a.forEach((v, k) => {
         if (v[0] == title) {
-            v[1]--
+            v[1] -= 1
             if (!v[1]) {
+                del = true
                 delete a[k]
-                let n = []
-                a.forEach((x) => {
-                    if (x != null) n.push(x)
-                })
                 delete document.querySelector(`${id}`)
-                document.cookie = `items=` + JSON.stringify(n) + `${expires}; path=/`;
                 prepareShoppingCart()
-                return
             }
             amount = v[1]
+            updateShoppingcart()
         }
     })
-    document.querySelector(`.${id} > .cart-item__amount`).innerHTML = amount
+    a.forEach((x) => {
+        if (x !== null) n.push(x)
+    })
+    updateCookie(n)
+    if (del === false) document.querySelector(`.${id} > .cart-item__amount`).innerHTML = amount
+    console.log(`.${id} > .cart-item__amount`)
     updateShoppingcart()
+}
+
+// --------------------------------------------------------------------- Updates items cookie based on array
+
+function updateCookie (array) {
+    cookieValues = getCookieValues();
+    cookieValues.forEach((v, k) => {
+        if (typeof v[1] === 'undefined') {
+            document.cookie = `items=` + JSON.stringify([]) + getExpiredate() + `; path=/`;
+            return;
+        }
+    });
+    document.cookie = `items=` + JSON.stringify(array) + getExpiredate() + `; path=/`;
 }
 
 // --------------------------------------------------------------------- Event listeners
