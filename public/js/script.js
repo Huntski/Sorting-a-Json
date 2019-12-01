@@ -3,21 +3,18 @@
 *   Description: Json Filter & Search, with Ajax
 */
 
-if (!document.cookie) updateCookie([]);
-
 // --------------------------------------------------------------------- Main variables
 
-let search__input  = document.querySelector('.search__input')
-let search__filter = document.querySelector('.search__filter')
-let search__sort   = document.querySelector('.search__sort')
-let list_container = document.querySelector('.list-container')
-let url            = window.location
-// const baseurl = url.protocol + "//" + url.host + '/Sorting-a-Json/'; // localhost
-const baseurl = url.protocol + "//" + url.host + '/Sorting-a-Json/'; // hosted
+const search__input  = document.querySelector('.search__input')
+const search__filter = document.querySelector('.search__filter')
+const search__sort   = document.querySelector('.search__sort')
+const list_container = document.querySelector('.list-container')
+const url            = window.location
+const baseurl        = url.protocol + "//" + url.host + '/school/Sorting-a-Json/';
 
 // --------------------------------------------------------------------- Get all search querys
 
-function prepareSearchRequest () {
+const prepareSearchRequest = function  () {
     ajax(
         url,
         {
@@ -33,7 +30,7 @@ function prepareSearchRequest () {
 
 // ---------------------------------------------------------------------
 
-function prepareShoppingCart () {
+const prepareShoppingCart = function () {
     ajax(
         url,
         {
@@ -84,7 +81,7 @@ const ajax = (url, parameters, method) => {
 
 // --------------------------------------------------------------------- Get experation date
 
-function getExpiredate () {
+const getExpiredate = function () {
     let expires = ""
     let date = new Date()
     date.setTime(date.getTime() + (12*24*60*60*1000)) // Keep the cookie for 12 days
@@ -95,8 +92,7 @@ function getExpiredate () {
 
 // --------------------------------------------------------------------- Add item to cookies for webshop
 
-function addCookie (value) {
-    let expires = getExpiredate();
+const addCookie = function (value) {
     let cookieArray = getCookieValues()
     let e = false
     cookieArray.forEach((v) => {
@@ -106,7 +102,7 @@ function addCookie (value) {
          }
     })
     if (!e) cookieArray[cookieArray.length] = [value, 1];
-    document.cookie = `items=` + JSON.stringify(cookieArray) + `${expires}; path=/`;
+    document.cookie = `items=${JSON.stringify(cookieArray)}${getExpiredate()}; path=/`;
     updateShoppingcart()
 }
 
@@ -114,7 +110,7 @@ function addCookie (value) {
 
 let shopCounter = document.querySelector('.shop-counter__count')
 
-function updateShoppingcart () {
+const updateShoppingcart = function () {
     let counter = 0;
     getCookieValues().forEach((c) => {
         counter += c[1];
@@ -124,8 +120,8 @@ function updateShoppingcart () {
 
 // --------------------------------------------------------------------- Get cookie values
 
-function getCookieValues () {
-    if (!document.cookie) return []
+const getCookieValues = function () {
+    if (document.cookie.search('items')) return []
     let value = document.cookie.split("items=").pop()
     value = value.split(";").shift()
     return JSON.parse(value)
@@ -133,7 +129,7 @@ function getCookieValues () {
 
 // --------------------------------------------------------------------- Remove cookie based on title
 
-function removeItem (title, id = null) {
+const removeItem = function (title, id = null) {
     let shopCounter = document.querySelector('.shop-counter__count')
     let a = getCookieValues(),
         amount,
@@ -163,11 +159,11 @@ function removeItem (title, id = null) {
 
 // --------------------------------------------------------------------- Updates items cookie based on array
 
-function updateCookie (array) {
+const updateCookie = function (array) {
     cookieValues = getCookieValues();
     cookieValues.forEach((v, k) => {
-        if (typeof v[1] === 'undefined') {
-            document.cookie = `items=` + JSON.stringify([]) + getExpiredate() + `; path=/`;
+        if (typeof v[1] === 'undefined') { // Resets all when the length of items does not exist
+            document.cookie = `items=${JSON.stringify([])}${getExpiredate()}; path=/`;
             return;
         }
     });
@@ -179,3 +175,7 @@ function updateCookie (array) {
 search__input.addEventListener('input', prepareSearchRequest)
 search__filter.addEventListener('change', prepareSearchRequest)
 search__sort.addEventListener('change', prepareSearchRequest)
+
+// --------------------------------------------------------------------- Checks if items cookie exists
+
+if (document.cookie.search('items') === -1) updateCookie([]);

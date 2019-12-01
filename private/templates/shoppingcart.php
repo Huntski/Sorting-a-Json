@@ -1,6 +1,6 @@
 <div class='shopping-cart'>
 
-    <button class="button--active" onclick="prepareSearchRequest()">Books</button>
+    <button class="button--return" onclick="prepareSearchRequest()">Return</button>
 
     <?php
 
@@ -10,7 +10,7 @@
         ?>
 
         <div class="shopping-cart">
-            <h2>Shopping cart is empty</h2>
+            <h2 class="">Shopping cart is empty</h2>
         </div>
 
     <?php
