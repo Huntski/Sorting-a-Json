@@ -10,7 +10,8 @@ const search__filter = document.querySelector('.search__filter')
 const search__sort   = document.querySelector('.search__sort')
 const list_container = document.querySelector('.list-container')
 const url            = window.location
-const baseurl        = url.protocol + "//" + url.host + '/school/Sorting-a-Json/';
+// const baseurl        = url.protocol + "//" + url.host + '/school/Sorting-a-Json/'; // Live version
+const baseurl        = url.protocol + "//" + url.host + '/Sorting-a-Json/'; // Localhost version
 
 // --------------------------------------------------------------------- Get all search querys
 
@@ -141,8 +142,8 @@ const removeItem = function (title, id = null) {
             if (!v[1]) {
                 del = true
                 delete a[k]
-                delete document.querySelector(`${id}`)
-                prepareShoppingCart()
+                console.log("removing", document.querySelector(`.cart-item__${id}`))
+                delete document.querySelector(`.cart-item__${id}`)
             }
             amount = v[1]
             updateShoppingcart()
@@ -152,8 +153,9 @@ const removeItem = function (title, id = null) {
         if (x !== null) n.push(x)
     })
     updateCookie(n)
-    if (del === false) document.querySelector(`.${id} > .cart-item__amount`).innerHTML = amount
-    console.log(`.${id} > .cart-item__amount`)
+    console.log(id)
+    if (del === false) document.querySelector(`.cart-item__${id} > .cart-item__title > .cart-item__amount`).innerHTML = amount
+    else prepareShoppingCart()
     updateShoppingcart()
 }
 

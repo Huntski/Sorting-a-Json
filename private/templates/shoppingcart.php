@@ -22,9 +22,9 @@
         if (isset($contents->titel)) :
             ?>
 
-            <div class="cart-item item">
-                <h2 class="cart-item__title cart-item__<?=$i?>"><?= $contents->titel ?> <span class="cart-item__amount"><?= $cookie[1] ?></span></h2>
-                <button onclick="removeItem('<?= $contents->titel ?>', 'cart-item__<?=$i?>')">x</button>
+            <div class="cart-item cart-item__<?=$i?>">
+                <h2 class="cart-item__title"><span class="cart-item__amount"><?= $cookie[1] ?></span><?= $contents->titel ?></h2>
+                <button class="cart-item__delete" onclick="removeItem('<?= $contents->titel ?>', 'cart-item__<?=$i?>')">Remove</button>
             </div>
 
             <?php

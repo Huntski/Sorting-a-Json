@@ -120,6 +120,7 @@ class MainController {
 
         require $folder . "header.php";
         require $folder . "home.php";
+        require $folder . "navigation.php";
         ?>
         <script type="text/javascript">
         window.addEventListener('DOMContentLoaded', (event) => {

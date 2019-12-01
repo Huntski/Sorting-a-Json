@@ -110,6 +110,7 @@ select {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.3em;
     font-weight: 700;
+    margin: 0 30px 30px 0;
     padding: 10px 30px;
     border-radius: 40px;
     -webkit-border-radius: 40px;
@@ -126,14 +127,14 @@ select {
 
 /* Header */
 
-.header {
+.navigation {
     display: flex;
     position: fixed;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     top: 0;
-    left: 0;
+    right: 0;
     margin: 10px;
     width: 40%;
     z-index: 1;
@@ -174,6 +175,7 @@ select {
     border: none;
     padding: 20px 30px;
     margin: 0 auto;
+    margin-top: 30px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.3em;
     font-weight: 700;
@@ -228,7 +230,7 @@ select {
 /* Main */
 
 .main {
-    margin-left: auto;
+    margin-right: auto;
     width: 60%;
     padding: 50px 0;
     display: flex;
@@ -242,8 +244,6 @@ select {
     margin-right: 30px;
     margin-left: auto;
 }
-
-.shopping-cart {}
 
 .item {
     position: relative;
@@ -272,12 +272,66 @@ select {
     object-fit: contain;
 }
 
-.item__list {}
-
 .item__list__item {
     text-decoration: none;
     list-style: none;
     margin: 5px 0;
+}
+
+.shopping-cart {
+    animation: fadeSlideIn .7s linear;
+    -webkit-animation: fadeSlideIn .7s linear;
+    margin-left: 40px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 80%;
+    font-size: 1em;
+    box-shadow: 0 4px 10px -3px rgba(0, 0, 0, .1);
+    padding: 0 20px;
+}
+
+.cart-item__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-item__amount {
+    border-right: solid 3px #ec931e;
+    padding-right: 10px;
+    margin-right: 10px;
+    font-size: 0.7em;
+}
+
+.cart-item__delete {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: #ff2b2b;
+    border-radius: 30px;
+    padding: 10px 20px;
+    margin-left: auto;
+    border: none;
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    color: #fff;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}
+
+.cart-item__delete:hover,
+.cart-item__delete:focus {
+    background: #ff4d4d;
 }
 
 /* Keyframes */
